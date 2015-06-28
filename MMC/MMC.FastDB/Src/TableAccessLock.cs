@@ -6,13 +6,31 @@ namespace MMC.FastDB
     {
         private readonly object _lockObj = new object();
 
-        public bool TryLock(int timeout)
+        private Thread onwerThread;
+
+        public bool TryLock(int timeout = int.MaxValue)
         {
-            return Monitor.TryEnter(this._lockObj, timeout);
+            if (Monitor.TryEnter(this._lockObj, timeout))
+            {
+                this.onwerThread = Thread.CurrentThread;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool IsLockedByMe
+        {
+            get { return this.onwerThread == Thread.CurrentThread; }
         }
 
         public void ReleaseLock()
         {
+            if (this.onwerThread == Thread.CurrentThread)
+            {
+                this.onwerThread = null;
+            }
+
             Monitor.Exit(this._lockObj);
         }
     }

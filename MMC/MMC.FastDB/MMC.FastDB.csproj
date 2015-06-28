@@ -52,7 +52,9 @@
     <Compile Include="Src\MetaFieldInfo.cs" />
     <Compile Include="Src\MetaTableInfo.cs" />
     <Compile Include="Src\ObjectTable.cs" />
+    <Compile Include="Src\RTTableInfo.cs" />
     <Compile Include="Src\TableAccessLock.cs" />
+    <Compile Include="Src\TableContext.cs" />
     <Compile Include="Src\TableFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

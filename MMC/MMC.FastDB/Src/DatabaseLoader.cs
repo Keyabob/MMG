@@ -35,7 +35,7 @@ namespace MMC.FastDB
                 {
                     var tableGUID = binaryReader.ReadStringMM();
                     var tableName = binaryReader.ReadStringMM();
-                    var tableIndex = binaryReader.ReadInt32();
+                    var filePath = binaryReader.ReadStringMM();
 
                     var fieldCount = binaryReader.ReadInt32();
                     var fields = new List<MetaFieldInfo>();
@@ -50,7 +50,7 @@ namespace MMC.FastDB
                     var table = new MetaTableInfo(fields);
                     table.TableGUID = tableGUID;
                     table.TableName = tableName;
-                    table.Index = tableIndex;
+                    table.FilePath = filePath;
                     table.InitializeAccess = false;
 
                     tables.Add(table);
@@ -60,18 +60,19 @@ namespace MMC.FastDB
             return tables;
         }
 
-        public void Save(IList<MetaTableInfo> tables)
+        public void Save(IEnumerable<MetaTableInfo> tables)
         {
             using (var binaryWriter = new BinaryWriter(new FileStream(this.MetaFileName, FileMode.Open, FileAccess.Read, FileShare.Read)))
             {
                 binaryWriter.BaseStream.Seek(0, SeekOrigin.Begin);
-                binaryWriter.Write(tables.Count);
+                binaryWriter.Write(0);
 
+                var tableNum = 0;
                 foreach (var table in tables)
                 {
                     binaryWriter.WriteStringMM(table.TableGUID);
                     binaryWriter.WriteStringMM(table.TableName);
-                    binaryWriter.Write(table.Index);
+                    binaryWriter.WriteStringMM(table.FilePath);
 
                     binaryWriter.Write(table.FieldCount);
 
@@ -79,7 +80,12 @@ namespace MMC.FastDB
                     {
                         binaryWriter.WriteStringMM(fieldInfo.FieldName);
                     }
+
+                    tableNum ++;
                 }
+
+                binaryWriter.BaseStream.Seek(0, SeekOrigin.Begin);
+                binaryWriter.Write(tableNum);
             }
         }
 

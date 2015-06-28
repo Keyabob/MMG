@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace MMC.FastDB
@@ -34,9 +35,9 @@ namespace MMC.FastDB
         /// </summary>
         public string FilePath { get; set; }
 
-        public int Index { get; set; }
-
         public bool InitializeAccess { get; set; }
+
+        public FileStream UsingStream { get; set; }
 
         public MetaFieldInfo GetField(string fieldName)
         {

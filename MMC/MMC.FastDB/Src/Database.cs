@@ -30,11 +30,23 @@ namespace MMC.FastDB
 
         private DatabaseLoader Loader { get; set; }
 
-        private Dictionary<string, MetaTableInfo> MetaTableMap { get; set; }
+        private Dictionary<string, TableContext> MetaTableMap { get; set; }
 
-        private IList<MetaTableInfo> MetaTables { get; set; }
+        private IList<TableContext> RTTables { get; set; }
 
-        private IList<TableAccessLock> TableLocks { get; set; } 
+        private IEnumerable<MetaTableInfo> MetaTables
+        {
+            get
+            {
+                if (this.RTTables != null)
+                {
+                    foreach (var tableContext in RTTables)
+                    {
+                        yield return tableContext.MTTable;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// 使用指定的连接字符串初始化一个数据库对象
@@ -60,8 +72,7 @@ namespace MMC.FastDB
                 System.Diagnostics.Debug.Assert(File.Exists(this.DatabaseMetaFile));
             }
 
-            this.TableLocks = new List<TableAccessLock>();
-            this.MetaTables = new List<MetaTableInfo>();
+            this.RTTables = new List<TableContext>();
 
             this.Loader = new DatabaseLoader(this.DatabaseMetaFile);
             var tables = this.Loader.Load();
@@ -91,28 +102,69 @@ namespace MMC.FastDB
             var type = typeof (T);
             var tableName = type.FullName;
 
-            MetaTableInfo table;
+            TableContext table;
             if (!this.MetaTableMap.TryGetValue(tableName, out table))
             {
-                table = this.CreateNewTable(type);
+                var rtTable = this.CreateNewTable(type);
 
-                this.AddNewTable(table);
+                table = this.AddNewTable(rtTable);
                 
                 this.Loader.Save(this.MetaTables);
             }
 
             System.Diagnostics.Debug.Assert(table != null);
 
-            return new ObjectTable<T>(this.TableLocks[table.Index], table);
+            //
+            // 加锁,并尝试初始化运行时表数据结构,确定属性都已经加载完成。
+            //
+
+            table.RTTable.AccessLock.TryLock();
+
+            try
+            {
+                if (!table.RTTable.IsAccessInitialized)
+                {
+                    //
+                    // 还没有开始初始化,此时开始初始化表运行时数据结构
+                    //
+
+                    this.InitializeTableContext(table);
+                    table.RTTable.IsAccessInitialized = true;
+                }
+            }
+            finally
+            {
+                table.RTTable.AccessLock.ReleaseLock();
+            }
+
+            return new ObjectTable<T>(table.RTTable.AccessLock, table.MTTable);
         }
 
-        private void AddNewTable(MetaTableInfo table)
+        private void InitializeTableContext(TableContext tableContext)
         {
-            this.MetaTableMap.Add(table.TableName, table);
-            this.MetaTables.Add(table);
-            this.TableLocks.Add(new TableAccessLock());
+            //
+            // 初始化运行时数据表
+            // 1 初始化字段属性反射列表,同时验证字段是否完全匹配
+            // 2 初始化文件流,确定当前是否有一个可写入的文件信息,如果不存在
+            //   或者前一个文件已经写满,则创建一个新文件,并将文件信息写入配置
+            //   列表
+            //
 
-            System.Diagnostics.Debug.Assert(this.MetaTables.Count == this.TableLocks.Count);
+
+        }
+
+        private TableContext AddNewTable(MetaTableInfo table)
+        {
+            var tableContext = new TableContext();
+            tableContext.MTTable = table;
+            tableContext.RTTable = new RTTableInfo();
+            tableContext.RTTable.IsAccessInitialized = false;
+            tableContext.RTTable.TableStream = null;
+            tableContext.RTTable.AccessLock = new TableAccessLock();
+
+            this.MetaTableMap.Add(table.TableName, tableContext);
+            this.RTTables.Add(tableContext);
+            return tableContext;
         }
 
         private MetaTableInfo CreateNewTable(Type tableType)
@@ -162,7 +214,20 @@ namespace MMC.FastDB
             // 配置对象生成完成，开始生成对应的文件信息
             //
 
-            
+            table.FilePath = table.TableName + "_meta.hd";
+            var tableMetaFilePath = Path.Combine(Path.GetDirectoryName(this.Config.DatabaseMetaFileName), table.FilePath);
+
+            if (File.Exists(tableMetaFilePath))
+            {
+                File.Delete(tableMetaFilePath);
+            }
+
+            using (var binaryWriter = new BinaryWriter(File.Create(tableMetaFilePath)))
+            {
+                binaryWriter.Write(0); 
+            }
+
+            return table;
         }
 
         public DataCollection<T> QueryTable<T>()
