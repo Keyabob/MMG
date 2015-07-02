@@ -17,6 +17,8 @@ namespace MMS
             InitializeComponent();
 
             Console.WriteLine("Add GridControl");
+
+            // add comments here....
         }
     }
 }
