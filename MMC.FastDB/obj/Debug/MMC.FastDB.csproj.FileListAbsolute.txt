@@ -1,0 +1,5 @@
+E:\Server2015\MMS\MMS\MMC.FastDB\obj\Debug\MMC.FastDB.csprojResolveAssemblyReference.cache
+E:\Server2015\MMS\MMS\MMC.FastDB\bin\Debug\MMC.FastDB.dll
+E:\Server2015\MMS\MMS\MMC.FastDB\bin\Debug\MMC.FastDB.pdb
+E:\Server2015\MMS\MMS\MMC.FastDB\obj\Debug\MMC.FastDB.dll
+E:\Server2015\MMS\MMS\MMC.FastDB\obj\Debug\MMC.FastDB.pdb

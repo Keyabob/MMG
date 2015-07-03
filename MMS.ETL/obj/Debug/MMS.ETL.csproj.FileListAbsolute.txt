@@ -1,0 +1,4 @@
+E:\Server2015\MMS\MMS\MMS.ETL\bin\Debug\MMS.ETL.dll
+E:\Server2015\MMS\MMS\MMS.ETL\bin\Debug\MMS.ETL.pdb
+E:\Server2015\MMS\MMS\MMS.ETL\obj\Debug\MMS.ETL.dll
+E:\Server2015\MMS\MMS\MMS.ETL\obj\Debug\MMS.ETL.pdb

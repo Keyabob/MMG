@@ -1,0 +1,7 @@
+E:\Server2015\MMS\MMS\MMS.FastDBTest\obj\Debug\MMS.FastDBTest.csprojResolveAssemblyReference.cache
+E:\Server2015\MMS\MMS\MMS.FastDBTest\bin\Debug\MMS.FastDBTest.dll
+E:\Server2015\MMS\MMS\MMS.FastDBTest\bin\Debug\MMS.FastDBTest.pdb
+E:\Server2015\MMS\MMS\MMS.FastDBTest\bin\Debug\MMC.FastDB.dll
+E:\Server2015\MMS\MMS\MMS.FastDBTest\bin\Debug\MMC.FastDB.pdb
+E:\Server2015\MMS\MMS\MMS.FastDBTest\obj\Debug\MMS.FastDBTest.dll
+E:\Server2015\MMS\MMS\MMS.FastDBTest\obj\Debug\MMS.FastDBTest.pdb

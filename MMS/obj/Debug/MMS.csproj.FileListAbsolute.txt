@@ -1,0 +1,14 @@
+D:\Server2015\MMS\MMS\MMS\bin\Debug\MMS.exe.config
+D:\Server2015\MMS\MMS\MMS\obj\Debug\MMS.csprojResolveAssemblyReference.cache
+D:\Server2015\MMS\MMS\MMS\obj\Debug\MMS.Properties.Resources.resources
+D:\Server2015\MMS\MMS\MMS\obj\Debug\MMS.csproj.GenerateResource.Cache
+E:\Server2015\MMS\MMS\MMS\bin\Debug\MMS.exe.config
+E:\Server2015\MMS\MMS\MMS\bin\Debug\MMS.exe
+E:\Server2015\MMS\MMS\MMS\bin\Debug\MMS.pdb
+E:\Server2015\MMS\MMS\MMS\bin\Debug\OxyPlot.dll
+E:\Server2015\MMS\MMS\MMS\bin\Debug\OxyPlot.pdb
+E:\Server2015\MMS\MMS\MMS\obj\Debug\MMS.csprojResolveAssemblyReference.cache
+E:\Server2015\MMS\MMS\MMS\obj\Debug\MMS.Properties.Resources.resources
+E:\Server2015\MMS\MMS\MMS\obj\Debug\MMS.csproj.GenerateResource.Cache
+E:\Server2015\MMS\MMS\MMS\obj\Debug\MMS.exe
+E:\Server2015\MMS\MMS\MMS\obj\Debug\MMS.pdb

@@ -1,0 +1,8 @@
+D:\Server2015\MMS\MMS\TradeProxy\bin\Debug\TradeProxy.dll
+D:\Server2015\MMS\MMS\TradeProxy\bin\Debug\TradeProxy.pdb
+D:\Server2015\MMS\MMS\TradeProxy\obj\Debug\TradeProxy.dll
+D:\Server2015\MMS\MMS\TradeProxy\obj\Debug\TradeProxy.pdb
+E:\Server2015\MMS\MMS\TradeProxy\bin\Debug\TradeProxy.dll
+E:\Server2015\MMS\MMS\TradeProxy\bin\Debug\TradeProxy.pdb
+E:\Server2015\MMS\MMS\TradeProxy\obj\Debug\TradeProxy.dll
+E:\Server2015\MMS\MMS\TradeProxy\obj\Debug\TradeProxy.pdb
